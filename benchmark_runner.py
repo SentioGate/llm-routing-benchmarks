@@ -6,6 +6,7 @@ Measures routing overhead and failover resilience.
 import time
 import statistics
 import argparse
+import sys
 from tabulate import tabulate
 
 def simulate_benchmark(iterations: int = 20):
@@ -26,8 +27,9 @@ def simulate_benchmark(iterations: int = 20):
     print("\n💡 Real-time production benchmarks are viewable at: https://sentiogate.app/benchmarks\n")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run LLM Gateway Benchmark")
-    parser.add_argument("--iterations", type=int, default=20, help="Number of benchmark iterations")
-    parser.add_argument("--concurrency", type=int, default=1, help="Concurrent workers")
+    parser = argparse.ArgumentParser(description="Run a synthetic LLM Gateway benchmark")
+    parser.add_argument("--iterations", type=int, default=20, help="Number of synthetic samples (1-10000)")
     args = parser.parse_args()
+    if not 1 <= args.iterations <= 10000:
+        parser.error("--iterations must be between 1 and 10000")
     simulate_benchmark(args.iterations)
