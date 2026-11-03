@@ -12,7 +12,7 @@ Maintained by the [SentioGate](https://sentiogate.app) engineering team.
 
 ## 🔬 Synthetic demonstration
 
-`benchmark_runner.py` generates deterministic arithmetic samples for demonstration purposes only. It makes no network requests and does not measure provider latency, routing overhead, or failover behavior. The live dashboard is separate from this local synthetic script.
+`benchmark_runner.py` generates deterministic arithmetic samples for demonstration purposes only. It makes no network requests and does not measure provider latency, routing overhead, or fallback behaviour; its numbers only illustrate the report format and are not SentioGate or competitor measurements. The live dashboard is separate from this local synthetic script.
 
 ---
 

@@ -1,33 +1,35 @@
 #!/usr/bin/env python3
 """
-Reproducible LLM Gateway Latency & Failover Benchmark Runner
-Measures routing overhead and failover resilience.
+Synthetic LLM gateway benchmark demonstration.
+
+Makes no network requests and measures nothing: the numbers below are generated
+deterministically to show the report format. They are not SentioGate, provider or
+competitor measurements. See https://sentiogate.app/benchmarks for live metrics.
 """
-import time
-import statistics
 import argparse
-import sys
+import statistics
+
 from tabulate import tabulate
 
+
 def simulate_benchmark(iterations: int = 20):
-    print(f"\n🚀 Running {iterations} iterations across candidate routing architectures...")
-    
-    # Representative benchmark measurements (synthetic sampling)
+    print(f"\n🚀 Generating {iterations} synthetic samples (no network, not real measurements)...")
+
+    # Deterministic placeholder samples that only illustrate the table layout.
     direct_baseline = [180 + (i % 7) * 4 for i in range(iterations)]
-    sentiogate_overhead = [196 + (i % 5) * 3 for i in range(iterations)]
-    generic_proxy = [238 + (i % 9) * 6 for i in range(iterations)]
+    via_gateway = [196 + (i % 5) * 3 for i in range(iterations)]
 
     results = [
-        ["Direct Provider (Baseline)", f"{statistics.mean(direct_baseline):.1f} ms", f"{statistics.median(direct_baseline):.1f} ms", "0 ms", "None"],
-        ["SentioGate Router", f"{statistics.mean(sentiogate_overhead):.1f} ms", f"{statistics.median(sentiogate_overhead):.1f} ms", f"+{statistics.mean(sentiogate_overhead) - statistics.mean(direct_baseline):.1f} ms", "< 45 ms"],
-        ["Traditional Proxy / Gateway", f"{statistics.mean(generic_proxy):.1f} ms", f"{statistics.median(generic_proxy):.1f} ms", f"+{statistics.mean(generic_proxy) - statistics.mean(direct_baseline):.1f} ms", "> 350 ms"],
+        ["Direct provider call (synthetic)", f"{statistics.mean(direct_baseline):.1f} ms", f"{statistics.median(direct_baseline):.1f} ms", "0 ms"],
+        ["Via gateway (synthetic)", f"{statistics.mean(via_gateway):.1f} ms", f"{statistics.median(via_gateway):.1f} ms", f"+{statistics.mean(via_gateway) - statistics.mean(direct_baseline):.1f} ms"],
     ]
 
-    print("\n" + tabulate(results, headers=["Architecture", "Mean TTFT", "Median TTFT", "Added Overhead", "Failover Delay"], tablefmt="github"))
-    print("\n💡 Real-time production benchmarks are viewable at: https://sentiogate.app/benchmarks\n")
+    print("\n" + tabulate(results, headers=["Sample set", "Mean", "Median", "Difference"], tablefmt="github"))
+    print("\n⚠️  Synthetic demo values only. Live metrics: https://sentiogate.app/benchmarks\n")
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run a synthetic LLM Gateway benchmark")
+    parser = argparse.ArgumentParser(description="Run a synthetic LLM gateway benchmark demonstration")
     parser.add_argument("--iterations", type=int, default=20, help="Number of synthetic samples (1-10000)")
     args = parser.parse_args()
     if not 1 <= args.iterations <= 10000:
