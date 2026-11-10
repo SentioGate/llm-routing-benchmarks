@@ -9,7 +9,20 @@ competitor measurements. See https://sentiogate.app/benchmarks for live metrics.
 import argparse
 import statistics
 
-from tabulate import tabulate
+try:
+    from tabulate import tabulate
+except ImportError:
+    # Standard-library fallback table formatter if tabulate is not installed
+    def tabulate(rows, headers, tablefmt="github"):
+        all_rows = [headers] + rows
+        col_widths = [max(len(str(r[i])) for r in all_rows) for i in range(len(headers))]
+        sep = "| " + " | ".join("-" * w for w in col_widths) + " |"
+        out = []
+        out.append("| " + " | ".join(str(headers[i]).ljust(col_widths[i]) for i in range(len(headers))) + " |")
+        out.append(sep)
+        for row in rows:
+            out.append("| " + " | ".join(str(row[i]).ljust(col_widths[i]) for i in range(len(row))) + " |")
+        return "\n".join(out)
 
 
 def simulate_benchmark(iterations: int = 20):
